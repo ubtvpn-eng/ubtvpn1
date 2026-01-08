@@ -2,22 +2,14 @@ import os
 import time
 import google.generativeai as genai
 from slugify import slugify
+from topics import topics # Import full list
 
 # --- ВСТАВЬТЕ СЮДА ВАШ КЛЮЧ ---
 GOOGLE_API_KEY = "AIzaSyDgYOAYZzz97fdbOiG7Ew00eoDjInrqcak" 
 
-# --- ТЕМЫ ---
-TOPICS = [
-    "Рейтинг VPN России 2026: Кто выжил после Чебурнета",
-    "Топ-5 сервисов для обхода блокировок: Обзор 2026",
-    "Как настроить VLESS на роутере Keenetic: Гайд",
-    "Настройка AmneziaWG для чайников: Инструкция",
-    "Почему интернет стал таким медленным: Анализ",
-]
-
 # --- НАСТРОЙКА ---
 genai.configure(api_key=GOOGLE_API_KEY)
-BASE_OUTPUT_DIR = "../src/content/blog" # Corrected path to point to parent src
+BASE_OUTPUT_DIR = "../src/content/blog" 
 
 def get_working_model():
     """Функция сама ищет доступную модель Gemini"""
@@ -41,7 +33,7 @@ def get_system_prompt(topic):
         Ты — IT-журналист из будущего (середина 2026 года). 
         Твоя задача — написать обзор VPN сервисов в условиях тотальной изоляции рунета.
         Легенда мира 2026: Работают только VLESS, Reality и спутниковый интернет. 
-        Придумай вымышленные названия сервисов. Дата: 2026-02-20.
+        Придумай вымышленные названия сервисов. Дата публикации: 2026-02-20.
         """
     return "Ты — эксперт по кибербезопасности. Пиши статью в формате Markdown для блога."
 
@@ -51,6 +43,13 @@ def generate_content(model, topic):
         folder = "reviews"
     elif any(x in topic.lower() for x in ["как", "гайд", "настройка", "инструкция"]):
         folder = "guides"
+    
+    # Check if file exists to skip
+    filename = slugify(topic) + ".md"
+    target_path = os.path.join(BASE_OUTPUT_DIR, folder, filename)
+    if os.path.exists(target_path):
+        print(f"⏭️ Пропуск (уже есть): {topic}")
+        return None, None
         
     print(f"🚀 Генерирую: {topic} -> папка /{folder}...")
 
@@ -63,20 +62,23 @@ def generate_content(model, topic):
     1. Frontmatter в начале (ОБЯЗАТЕЛЬНО):
     ---
     title: '{topic}'
-    description: 'SEO описание'
+    description: 'SEO описание до 160 символов'
     pubDate: 2026-02-20
     author: 'NetFreedom Admin'
     image: '/images/{slugify(topic)}.jpg'
     tags: ['VPN', 'Security']
     ---
     
-    2. Используй Markdown (H2, H3, code blocks).
-    3. Объем: от 3000 знаков.
+    2. Используй Markdown. НЕ используй обертку ```markdown. Пиши текст сразу.
+    3. Объем: от 3500 знаков.
     """
 
     try:
         response = model.generate_content(prompt)
-        return response.text, folder
+        text = response.text
+        # Cleanup potential markdown fences
+        text = text.replace("```markdown", "").replace("```", "").strip()
+        return text, folder
     except Exception as e:
         print(f"❌ Ошибка генерации: {e}")
         return None, None
@@ -98,10 +100,13 @@ if __name__ == "__main__":
     model = get_working_model()
     
     if model:
-        for topic in TOPICS:
+        print(f"🎯 Всего тем в очереди: {len(topics)}")
+        for i, topic in enumerate(topics):
             content, folder = generate_content(model, topic)
             if content:
                 save_file(topic, content, folder)
-                time.sleep(4) # Пауза важна для бесплатного тарифа
+                time.sleep(5) # Пауза важна для бесплатного тарифа
+            else:
+                pass 
     else:
         print("Скрипт остановлен из-за ошибки доступа к моделям.")

@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  price: string;
+  rating: number;
+  logo: string;
+  reviewUrl: string;
+}
+
+const { title, price, rating, logo, reviewUrl } = Astro.props;
+const isRecommended = rating > 9;
+---
+
+<div class="relative group bg-cyber-gray border border-white/5 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(0,255,157,0.1)]">
+  {isRecommended && (
+    <div class="absolute -top-3 -right-3 bg-cyber-primary text-cyber-black text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-cyber-primary/20 animate-pulse">
+      РЕКОМЕНДУЕМ
+    </div>
+  )}
+
+  <div class="flex items-start justify-between mb-4">
+    <div class="w-12 h-12 rounded-lg bg-white/5 p-2 flex items-center justify-center">
+      <img src={logo} alt={title} class="w-full h-full object-contain" />
+    </div>
+    <div class="flex items-center gap-1">
+      <span class="text-2xl font-bold font-mono text-white">{rating}</span>
+      <span class="text-gray-500 text-sm">/10</span>
+    </div>
+  </div>
+
+  <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-primary transition-colors">{title}</h3>
+  <p class="text-gray-400 mb-6 font-mono text-sm">{price}</p>
+
+  <div class="grid gap-3">
+    <a href={reviewUrl} class="flex items-center justify-center w-full py-2.5 bg-cyber-primary text-cyber-black font-bold rounded-lg hover:bg-cyber-accent transition-colors">
+      Скачать
+    </a>
+    <a href={`/reviews/${title.toLowerCase()}`} class="flex items-center justify-center w-full py-2.5 bg-transparent border border-white/10 text-gray-300 font-medium rounded-lg hover:border-white/30 transition-colors">
+      Читать обзор
+    </a>
+  </div>
+</div>

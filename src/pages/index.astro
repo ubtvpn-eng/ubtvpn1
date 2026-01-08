@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+
+// Placeholder data for Service Cards (demonstration)
+const topVpn = {
+  title: "CyberShield VPN",
+  price: "от $2.50/мес",
+  rating: 9.8,
+  logo: "/logos/vpn1.svg", // Placeholder
+  reviewUrl: "#"
+};
+---
+
+<Layout title="Главная">
+	<section class="relative py-20 md:py-32 overflow-hidden rounded-3xl mb-16 bg-cyber-dark border border-white/5">
+        <!-- Abstract Background -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none">
+             <div class="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+             <div class="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-cyber-primary opacity-20 blur-[100px]"></div>
+        </div>
+
+        <div class="relative container mx-auto px-4 text-center z-10">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
+                Верни свободу в <span class="bg-gradient-to-r from-cyber-primary to-cyber-accent bg-clip-text text-transparent">интернете</span>
+            </h1>
+            <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+                Твой проводник в мире анонимности. Лучшие VPN, прокси и инструменты для обхода блокировок в одном месте.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="/ratings" class="w-full sm:w-auto px-8 py-3.5 bg-cyber-primary text-cyber-black font-bold rounded-xl hover:bg-cyber-accent hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(0,255,157,0.3)]">
+                    Подобрать VPN
+                </a>
+                <a href="/blog" class="w-full sm:w-auto px-8 py-3.5 bg-white/5 border border-white/10 text-white font-medium rounded-xl hover:bg-white/10 transition-colors backdrop-blur-sm">
+                    Читать гайды
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Grid -->
+    <section class="mb-20">
+        <h2 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+            <span class="w-1 h-8 bg-cyber-primary rounded-full"></span>
+            Категории
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Card 1: VPN -->
+            <a href="/rating/vpn" class="group relative overflow-hidden bg-cyber-gray p-8 rounded-2xl border border-white/5 hover:border-cyber-primary/50 transition-all duration-300">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-primary transition-colors">VPN Сервисы</h3>
+                <p class="text-gray-500 text-sm">Топ лучших сервисов для обхода блокировок.</p>
+            </a>
+
+             <!-- Card 2: Proxies -->
+             <a href="/rating/proxy" class="group relative overflow-hidden bg-cyber-gray p-8 rounded-2xl border border-white/5 hover:border-cyber-primary/50 transition-all duration-300">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-primary transition-colors">Прокси</h3>
+                <p class="text-gray-500 text-sm">Серверные и мобильные прокси под любые задачи.</p>
+            </a>
+
+             <!-- Card 3: VPS -->
+             <a href="/rating/vps" class="group relative overflow-hidden bg-cyber-gray p-8 rounded-2xl border border-white/5 hover:border-cyber-primary/50 transition-all duration-300">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-primary transition-colors">VPS / VDS</h3>
+                <p class="text-gray-500 text-sm">Аренда виртуальных серверов по всему миру.</p>
+            </a>
+
+             <!-- Card 4: Browsers -->
+             <a href="/rating/browsers" class="group relative overflow-hidden bg-cyber-gray p-8 rounded-2xl border border-white/5 hover:border-cyber-primary/50 transition-all duration-300">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" x2="12" y1="8" y2="8"/><line x1="3.95" x2="8.54" y1="6.06" y2="14"/><line x1="10.88" x2="15.46" y1="21.94" y2="14"/></svg>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyber-primary transition-colors">Браузеры</h3>
+                <p class="text-gray-500 text-sm">Антидетект браузеры для мультиаккаунтинга.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Top Service Preview -->
+    <section>
+        <h2 class="text-2xl font-bold text-white mb-6">Сервис дня</h2>
+        <div class="w-full max-w-sm">
+            <ServiceCard {...topVpn} />
+        </div>
+    </section>
+</Layout>

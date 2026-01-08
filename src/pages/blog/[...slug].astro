@@ -1,0 +1,42 @@
+---
+// src/pages/blog/[...slug].astro
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// 1. Astro заранее находит все файлы статей, чтобы создать для них страницы
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug }, props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+	<article class="max-w-3xl mx-auto px-4 py-12">
+		
+		<header class="mb-10 text-center">
+			<div class="text-slate-500 text-sm mb-4 uppercase tracking-wider">
+				{post.data.pubDate.toLocaleDateString('ru-RU')} • {post.data.author}
+			</div>
+			<h1 class="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
+				{post.data.title}
+			</h1>
+			<div class="flex gap-2 justify-center">
+				{post.data.tags.map(tag => (
+					<span class="px-3 py-1 bg-slate-800 text-blue-400 text-xs rounded-full border border-slate-700">
+						#{tag}
+					</span>
+				))}
+			</div>
+		</header>
+
+		<div class="prose prose-lg prose-invert mx-auto prose-a:text-blue-400 prose-headings:text-gray-100">
+			<Content />
+		</div>
+
+	</article>
+</Layout>
